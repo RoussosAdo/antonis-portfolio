@@ -138,7 +138,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* mobile button */}
         <div className="mt-8 sm:hidden">
           <Link
             href="/projects"
@@ -148,6 +147,80 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* EXPERIENCE */}
+      <section id="experience" className="mx-auto max-w-6xl px-6 pb-24">
+        <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+            <p className="text-lg font-semibold">Front-End Developer</p>
+            <p className="text-sm text-white/60">eLearning Industry</p>
+          </div>
+
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-white/75">
+            <li>
+              Shipped UI features in an existing codebase using Git + PR
+              workflow.
+            </li>
+            <li>
+              Built reusable components and improved maintainability through
+              refactors.
+            </li>
+            <li>
+              Debugged production issues and delivered fixes under deadlines.
+            </li>
+            <li>
+              Worked with responsive layouts and consistent UI patterns.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" className="mx-auto max-w-6xl px-6 pb-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p className="text-white/70">
+            Email me directly and I’ll reply fast.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="mailto:roussos.ado@gmail.com"
+              className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
+            >
+              Email me
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/antonis-roussos-1a05b72b2/"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              href="https://github.com/RoussosAdo"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-white/10 bg-neutral-950">
+        <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-white/60">
+          © {new Date().getFullYear()} Antonis Roussos. Built with Next.js and Tailwind.
+        </div>
+      </footer>
     </main>
   );
 }

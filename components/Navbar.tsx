@@ -20,28 +20,26 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <div className="hidden items-center gap-6 text-sm sm:flex">
-          {/* Anchor links = <a> */}
-          <Link href="/#projects" className={linkClass(false)}>
-            Featured
-          </Link>
+        <div className="relative hidden items-center gap-6 text-sm sm:flex">
+  <span
+    className="pointer-events-none absolute -bottom-2 h-[2px] rounded-full bg-white/80 transition-all duration-300"
+    style={{
+      width: pathname === "/projects" ? 62 : 0,
+      left: pathname === "/projects" ? 86 : 0,
+      opacity: pathname === "/projects" ? 1 : 0,
+    }}
+  />
 
-          {/* Internal page = <Link> */}
-          <Link
-            href="/projects"
-            className={linkClass(pathname === "/projects")}
-          >
-            Projects
-          </Link>
+  <Link href="/#projects" className={linkClass(false)}>Featured</Link>
 
-          <Link href="/#experience" className={linkClass(false)}>
-            Experience
-          </Link>
+  <Link href="/projects" className={linkClass(pathname === "/projects")}>
+    Projects
+  </Link>
 
-          <Link href="/#contact" className={linkClass(false)}>
-            Contact
-          </Link>
-        </div>
+  <Link href="/#experience" className={linkClass(false)}>Experience</Link>
+  <Link href="/#contact" className={linkClass(false)}>Contact</Link>
+</div>
+
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-3">

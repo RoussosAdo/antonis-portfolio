@@ -30,10 +30,21 @@ export default function Home() {
 
           <a
             href="/CV-Roussos-Antonios.pdf"
+            target="_blank"
+            rel="noreferrer"
             className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
           >
-            Download CV
+            View CV
           </a>
+
+          <a
+            href="/CV-Roussos-Antonios.pdf"
+            download
+            className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
+          >
+            Download PDF
+          </a>
+
 
           <a
             href="https://github.com/RoussosAdo"

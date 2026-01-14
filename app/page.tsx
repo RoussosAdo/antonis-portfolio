@@ -1,3 +1,4 @@
+import Reveal from "@/components/Reveal";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 
@@ -7,7 +8,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
       {/* HERO */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
+    <Reveal>
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-64 max-w-6xl blur-3xl">
+      <div className="h-full w-full rounded-full bg-white/10" />
+      </div>
+
         <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80">
           Open to Front-End (React) • Full-Stack (Laravel/PHP)
         </p>
@@ -28,7 +34,7 @@ export default function Home() {
         <div className="mt-10 flex flex-wrap gap-3">
           <a
             href="#projects"
-            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
+            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0"
           >
             View Projects
           </a>
@@ -37,7 +43,7 @@ export default function Home() {
             href="/CV-Roussos-Antonios.pdf"
             target="_blank"
             rel="noreferrer"
-            className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0"
           >
             View CV
           </a>
@@ -45,7 +51,7 @@ export default function Home() {
           <a
             href="/CV-Roussos-Antonios.pdf"
             download
-            className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
+            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0"
           >
             Download PDF
           </a>
@@ -54,7 +60,7 @@ export default function Home() {
             href="https://github.com/RoussosAdo"
             target="_blank"
             rel="noreferrer"
-            className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
+            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0"
           >
             GitHub
           </a>
@@ -63,7 +69,7 @@ export default function Home() {
             href="https://www.linkedin.com/in/antonis-roussos-1a05b72b2/"
             target="_blank"
             rel="noreferrer"
-            className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
+            className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90 hover:-translate-y-0.5 active:translate-y-0"
           >
             LinkedIn
           </a>
@@ -85,8 +91,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+    </Reveal>
 
       {/* FEATURED PROJECTS */}
+    <Reveal delayMs={80}>
       <section id="projects" className="mx-auto max-w-6xl px-6 pb-24">
         <div className="flex items-end justify-between gap-6">
           <div>
@@ -112,10 +120,12 @@ export default function Home() {
             <Link
               key={p.slug}
               href={`/projects/${p.slug}`}
-              className="group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:bg-white/10"
+              className="group rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-200 hover:bg-white/10 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+
             >
               <p className="text-sm text-white/60">{p.role}</p>
-              <h3 className="mt-2 text-xl font-semibold">{p.title}</h3>
+              <h3 className="mt-2 text-xl font-semibold transition group-hover:text-white">{p.title}</h3>
+
               <p className="mt-3 text-sm leading-relaxed text-white/70">
                 {p.summary}
               </p>
@@ -147,8 +157,10 @@ export default function Home() {
           </Link>
         </div>
       </section>
+    </Reveal>
 
       {/* EXPERIENCE */}
+    <Reveal delayMs={120}>
       <section id="experience" className="mx-auto max-w-6xl px-6 pb-24">
         <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
 
@@ -176,8 +188,10 @@ export default function Home() {
           </ul>
         </div>
       </section>
+    </Reveal>
 
       {/* CONTACT */}
+    <Reveal delayMs={160}>
       <section id="contact" className="mx-auto max-w-6xl px-6 pb-20">
         <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
 
@@ -214,6 +228,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+    </Reveal>
 
       {/* FOOTER */}
       <footer className="border-t border-white/10 bg-neutral-950">

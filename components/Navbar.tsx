@@ -22,7 +22,7 @@ export default function Navbar() {
         {/* DESKTOP NAV */}
         <div className="relative hidden items-center gap-6 text-sm sm:flex">
   <span
-    className="pointer-events-none absolute -bottom-2 h-[2px] rounded-full bg-white/80 transition-all duration-300"
+    className="pointer-events-none absolute -bottom-2 h-0.5 rounded-full bg-white/80 transition-all duration-300"
     style={{
       width: pathname === "/projects" ? 62 : 0,
       left: pathname === "/projects" ? 86 : 0,

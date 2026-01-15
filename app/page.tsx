@@ -124,45 +124,48 @@ export default function Home() {
           </div>
 
           <MotionDiv
-            variants={stagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {featured.map((p) => (
-              <MotionDiv key={p.slug} variants={fadeUp}>
-                <Link
-                  href={`/projects/${p.slug}`}
-                  className="group block rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-200 hover:bg-white/10 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
-                >
-                  <p className="text-sm text-white/60">{p.role}</p>
-                  <h3 className="mt-2 text-xl font-semibold transition group-hover:text-white">
-                    {p.title}
-                  </h3>
+  variants={stagger}
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true, amount: 0.2 }}
+  className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+>
+  {featured.map((p) => (
+    <div key={p.slug}>
+      <MotionDiv variants={fadeUp}>
+        <Link
+          href={`/projects/${p.slug}`}
+          className="group block rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-200 hover:bg-white/10 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+        >
+          <p className="text-sm text-white/60">{p.role}</p>
+          <h3 className="mt-2 text-xl font-semibold transition group-hover:text-white">
+            {p.title}
+          </h3>
 
-                  <p className="mt-3 text-sm leading-relaxed text-white/70">
-                    {p.summary}
-                  </p>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">
+            {p.summary}
+          </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.stack.slice(0, 4).map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/70"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="mt-5 text-sm font-medium text-white/80 transition group-hover:text-white">
-                    Read case study →
-                  </p>
-                </Link>
-              </MotionDiv>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {p.stack.slice(0, 4).map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/70"
+              >
+                {s}
+              </span>
             ))}
-          </MotionDiv>
+          </div>
+
+          <p className="mt-5 text-sm font-medium text-white/80 transition group-hover:text-white">
+            Read case study →
+          </p>
+        </Link>
+      </MotionDiv>
+    </div>
+  ))}
+</MotionDiv>
+
 
           <div className="mt-8 sm:hidden">
             <Link

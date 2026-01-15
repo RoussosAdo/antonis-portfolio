@@ -3,10 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import useActiveSection from "@/components/useActiveSection";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // active section μόνο στην Home
+  const activeSection = useActiveSection(["projects", "experience", "contact"]);
+  const onHome = pathname === "/";
+
+  const isActive = (id: "projects" | "experience" | "contact") =>
+    onHome && activeSection === id;
 
   const linkClass = (active: boolean) =>
     `transition ${active ? "text-white" : "text-white/70 hover:text-white"}`;
@@ -20,26 +28,25 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <div className="relative hidden items-center gap-6 text-sm sm:flex">
-  <span
-    className="pointer-events-none absolute -bottom-2 h-0.5 rounded-full bg-white/80 transition-all duration-300"
-    style={{
-      width: pathname === "/projects" ? 62 : 0,
-      left: pathname === "/projects" ? 86 : 0,
-      opacity: pathname === "/projects" ? 1 : 0,
-    }}
-  />
+        <div className="hidden items-center gap-6 text-sm sm:flex">
+          {/* Anchor links = <a> */}
+          <Link href="/#projects" className={linkClass(isActive("projects"))}>
+            Featured
+          </Link>
 
-  <Link href="/#projects" className={linkClass(false)}>Featured</Link>
+          {/* Page route = <Link> */}
+          <Link href="/projects" className={linkClass(pathname === "/projects")}>
+            Projects
+          </Link>
 
-  <Link href="/projects" className={linkClass(pathname === "/projects")}>
-    Projects
-  </Link>
+          <Link href="/#experience" className={linkClass(isActive("experience"))}>
+            Experience
+          </Link>
 
-  <Link href="/#experience" className={linkClass(false)}>Experience</Link>
-  <Link href="/#contact" className={linkClass(false)}>Contact</Link>
-</div>
-
+          <Link href="/#contact" className={linkClass(isActive("contact"))}>
+            Contact
+          </Link>
+        </div>
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-3">
@@ -70,7 +77,7 @@ export default function Navbar() {
             <Link
               href="/#projects"
               onClick={() => setOpen(false)}
-              className="text-white/80 hover:text-white"
+              className={linkClass(isActive("projects"))}
             >
               Featured
             </Link>
@@ -86,7 +93,7 @@ export default function Navbar() {
             <Link
               href="/#experience"
               onClick={() => setOpen(false)}
-              className="text-white/80 hover:text-white"
+              className={linkClass(isActive("experience"))}
             >
               Experience
             </Link>
@@ -94,7 +101,7 @@ export default function Navbar() {
             <Link
               href="/#contact"
               onClick={() => setOpen(false)}
-              className="text-white/80 hover:text-white"
+              className={linkClass(isActive("contact"))}
             >
               Contact
             </Link>

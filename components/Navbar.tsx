@@ -2,54 +2,181 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import useActiveSection from "@/components/useActiveSection";
+
+type Key = "featured" | "projects" | "experience" | "contact";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // active section μόνο στην Home
-  const activeSection = useActiveSection(["projects", "experience", "contact"]);
   const onHome = pathname === "/";
+  const activeSection = useActiveSection(["projects", "experience", "contact"], 140);
 
-  const isActive = (id: "projects" | "experience" | "contact") =>
-    onHome && activeSection === id;
+  // Hash για instant active όταν πατάς anchor
+  const [hash, setHash] = useState<string>("");
+
+  useEffect(() => {
+    const sync = () => setHash(window.location.hash || "");
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+
+  const activeKey: Key = useMemo(() => {
+    if (pathname === "/projects") return "projects";
+
+    if (onHome) {
+      // 1) hash priority (instant)
+      if (hash === "#contact") return "contact";
+      if (hash === "#experience") return "experience";
+      if (hash === "#projects") return "featured";
+
+      // 2) scrollspy
+      if (activeSection === "contact") return "contact";
+      if (activeSection === "experience") return "experience";
+      return "featured";
+    }
+
+    return "featured";
+  }, [pathname, onHome, hash, activeSection]);
 
   const linkClass = (active: boolean) =>
     `transition ${active ? "text-white" : "text-white/70 hover:text-white"}`;
+
+  // ----- Underline (dynamic, centered) -----
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const linkRefs = useRef<Record<Key, HTMLAnchorElement | null>>({
+    featured: null,
+    projects: null,
+    experience: null,
+    contact: null,
+  });
+
+  const [underline, setUnderline] = useState<{ left: number; width: number; opacity: number }>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const updateUnderline = () => {
+    const container = navRef.current;
+    const el = linkRefs.current[activeKey];
+
+    if (!container || !el) {
+      setUnderline((u) => ({ ...u, opacity: 0 }));
+      return;
+    }
+
+    const cRect = container.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+
+    // Centered underline: use a bit smaller than text width (looks premium)
+    const targetWidth = Math.max(18, Math.round(r.width));
+    const centerX = r.left - cRect.left + r.width / 2;
+    const left = Math.round(centerX - targetWidth / 2);
+
+    setUnderline({ left, width: targetWidth, opacity: 1 });
+  };
+
+  // useLayoutEffect για να μετράει σωστά πριν το paint
+  useLayoutEffect(() => {
+    updateUnderline();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeKey]);
+
+  useEffect(() => {
+    const onResize = () => updateUnderline();
+    window.addEventListener("resize", onResize);
+
+    // Fonts μπορεί να φορτώνουν μετά → ξαναμέτρα
+    const t = window.setTimeout(() => updateUnderline(), 50);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.clearTimeout(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Click helpers
+  const goHash = (h: "#projects" | "#experience" | "#contact") => {
+    setHash(h);
+    setOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/80 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* LOGO */}
-        <Link href="/" className="font-semibold tracking-tight">
+        <Link
+          href="/"
+          className="font-semibold tracking-tight"
+          onClick={() => setOpen(false)}
+        >
           Antonis<span className="text-white/60">.dev</span>
         </Link>
 
         {/* DESKTOP NAV */}
-        <div className="hidden items-center gap-6 text-sm sm:flex">
-          {/* Anchor links = <a> */}
-          <Link href="/#projects" className={linkClass(isActive("projects"))}>
+        <div ref={navRef} className="relative hidden items-center gap-6 text-sm sm:flex">
+          <span
+            className="pointer-events-none absolute -bottom-2 h-0.5 rounded-full bg-white/80 transition-all duration-300"
+            style={{
+              left: underline.left,
+              width: underline.width,
+              opacity: underline.opacity,
+            }}
+          />
+
+          <Link
+            href="/#projects"
+            ref={(el) => {
+              linkRefs.current.featured = el;
+            }}
+            onClick={() => goHash("#projects")}
+            className={linkClass(activeKey === "featured")}
+          >
             Featured
           </Link>
 
-          {/* Page route = <Link> */}
-          <Link href="/projects" className={linkClass(pathname === "/projects")}>
+          <Link
+            href="/projects"
+            ref={(el) => {
+              linkRefs.current.projects = el;
+            }}
+            onClick={() => setOpen(false)}
+            className={linkClass(activeKey === "projects")}
+          >
             Projects
           </Link>
 
-          <Link href="/#experience" className={linkClass(isActive("experience"))}>
+          <Link
+            href="/#experience"
+            ref={(el) => {
+              linkRefs.current.experience = el;
+            }}
+            onClick={() => goHash("#experience")}
+            className={linkClass(activeKey === "experience")}
+          >
             Experience
           </Link>
 
-          <Link href="/#contact" className={linkClass(isActive("contact"))}>
+          <Link
+            href="/#contact"
+            ref={(el) => {
+              linkRefs.current.contact = el;
+            }}
+            onClick={() => goHash("#contact")}
+            className={linkClass(activeKey === "contact")}
+          >
             Contact
           </Link>
         </div>
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-3">
+          {/* PDF: external/static asset OK with <a> */}
           <a
             href="/CV-Roussos-Antonios.pdf"
             target="_blank"
@@ -59,7 +186,6 @@ export default function Navbar() {
             CV
           </a>
 
-          {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setOpen((v) => !v)}
             className="rounded-lg border border-white/15 bg-white/5 p-2 text-white sm:hidden"
@@ -76,8 +202,8 @@ export default function Navbar() {
           <div className="flex flex-col gap-4 px-6 py-6 text-sm">
             <Link
               href="/#projects"
-              onClick={() => setOpen(false)}
-              className={linkClass(isActive("projects"))}
+              onClick={() => goHash("#projects")}
+              className={linkClass(activeKey === "featured")}
             >
               Featured
             </Link>
@@ -85,23 +211,23 @@ export default function Navbar() {
             <Link
               href="/projects"
               onClick={() => setOpen(false)}
-              className={linkClass(pathname === "/projects")}
+              className={linkClass(activeKey === "projects")}
             >
               Projects
             </Link>
 
             <Link
               href="/#experience"
-              onClick={() => setOpen(false)}
-              className={linkClass(isActive("experience"))}
+              onClick={() => goHash("#experience")}
+              className={linkClass(activeKey === "experience")}
             >
               Experience
             </Link>
 
             <Link
               href="/#contact"
-              onClick={() => setOpen(false)}
-              className={linkClass(isActive("contact"))}
+              onClick={() => goHash("#contact")}
+              className={linkClass(activeKey === "contact")}
             >
               Contact
             </Link>

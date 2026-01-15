@@ -2,31 +2,33 @@
 
 import { useEffect, useState } from "react";
 
-export default function useActiveSection(sectionIds: string[]) {
-  const [active, setActive] = useState<string>("");
+export default function useActiveSection(sectionIds: string[], offsetPx = 120) {
+  const [active, setActive] = useState<string>(sectionIds[0] ?? "");
 
   useEffect(() => {
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
+    const onScroll = () => {
+      const y = window.scrollY + offsetPx;
 
-    if (!elements.length) return;
+      let current = sectionIds[0] ?? "";
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
 
-    const obs = new IntersectionObserver(
-      (entries) => {
-        // πάρε αυτό με το μεγαλύτερο intersection ratio
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))[0];
+        if (el.offsetTop <= y) current = id;
+      }
 
-        if (visible?.target?.id) setActive(visible.target.id);
-      },
-      { root: null, threshold: [0.2, 0.35, 0.5] }
-    );
+      setActive(current);
+    };
 
-    elements.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, [sectionIds]);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [sectionIds, offsetPx]);
 
   return active;
 }

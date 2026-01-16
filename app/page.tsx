@@ -258,14 +258,6 @@ export default function Home() {
             </div>
           </section>
         </Reveal>
-
-        {/* FOOTER */}
-        <footer className="border-t border-white/10 bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-white/60">
-            © {new Date().getFullYear()} Antonis Roussos. Built with Next.js and
-            Tailwind.
-          </div>
-        </footer>
       </main>
     </>
   );

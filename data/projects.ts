@@ -1,69 +1,117 @@
+// data/projects.ts
+
+export type ProjectLink = {
+  live?: string;
+  github?: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
   role: string;
-  stack: string[];
   summary: string;
-  highlights: string[];
-  links: {
-    live?: string;
-    github?: string;
-  };
+  stack: string[];
+  links: ProjectLink;
+
+  overview: string;
+  problem: string[];
+  solution: string[];
+  outcomes: string[];
+  highlights?: string[];
 };
 
-export const projects: Project[] = [
-  {
+// Helper (optional): ensures you never accidentally export empty arrays/strings
+const p = (project: Project) => project;
+
+export const projects = [
+  p({
     slug: "saas-dashboard",
-    title: "SaaS Admin Dashboard",
-    role: "Front-End (React) • Production-style UI",
-    stack: ["Next.js", "React", "Tailwind", "REST API"],
+    title: "SaaS Dashboard (React UI)",
+    role: "Front-End • React",
     summary:
-      "A production-style admin dashboard with real-world UI patterns: tables, filters, pagination, forms, loading/error states, and clean component architecture.",
-    highlights: [
-      "Auth (mock), protected routes, and clean layout structure",
-      "Data table with search, filters, sorting, pagination",
-      "Forms with validation and reusable UI components",
-      "Loading skeletons + error states like real products",
-    ],
+      "A production-style dashboard UI with reusable components, responsive layout, and clean state handling.",
+    stack: ["React", "Next.js", "TypeScript", "Tailwind"],
     links: {
-      live: "", // θα το βάλεις όταν κάνεις deploy
-      github: "", // θα το βάλεις όταν φτιάξεις το repo του project ή folder
+      live: "https://example.com",
+      github: "https://github.com/RoussosAdo",
     },
-  },
-  {
+    overview:
+      "Built a clean, scalable dashboard UI focused on component reuse, responsiveness, and performance-friendly rendering.",
+    problem: [
+      "Dashboard screens grow fast → needs reusable layout patterns.",
+      "Must be responsive and consistent across breakpoints.",
+      "Avoid messy component coupling and duplicated UI code.",
+    ],
+    solution: [
+      "Created reusable UI sections and consistent spacing/typography rules.",
+      "Structured components by responsibility (layout, cards, data, actions).",
+      "Kept state minimal, lifted only when necessary.",
+    ],
+    outcomes: [
+      "Reusable components reduced repetition and sped up new screens.",
+      "Cleaner structure improved maintainability and readability.",
+      "Responsive UI behaves consistently across devices.",
+    ],
+    highlights: ["Keyboard-friendly interactions", "Accessible contrast & spacing"],
+  }),
+
+  p({
     slug: "fullstack-laravel",
-    title: "Full-Stack App (Laravel + React)",
-    role: "Full-Stack • CRUD + Auth",
-    stack: ["Laravel", "PHP", "MySQL", "Blade/React"],
+    title: "Full-Stack App (Laravel + MySQL)",
+    role: "Full-Stack • Laravel/PHP",
     summary:
-      "A full-stack app demonstrating backend fundamentals: authentication, validation, CRUD, and a clean UI layer.",
-    highlights: [
-      "Auth, validation, and database-backed CRUD",
-      "Server-rendered pages (Blade) or React UI layer",
-      "Structured controllers/services approach",
-      "Deployed demo with real data flows",
-    ],
+      "A CRUD-style web app with authentication, server-side validation, and clean database design.",
+    stack: ["Laravel", "PHP", "MySQL", "Blade"],
     links: {
-      live: "",
-      github: "",
+      live: "https://example.com",
+      github: "https://github.com/RoussosAdo",
     },
-  },
-  {
+    overview:
+      "Implemented a full-stack workflow: routes → controllers → validation → database → Blade UI.",
+    problem: [
+      "Need a reliable CRUD workflow with proper validation.",
+      "Data integrity and consistent error handling are required.",
+      "Keep business logic separated from views.",
+    ],
+    solution: [
+      "Used Form Request validation for clear, reusable rules.",
+      "Designed database tables with sensible keys and indexes.",
+      "Kept controllers thin and views clean.",
+    ],
+    outcomes: [
+      "Predictable behavior with clear validation errors.",
+      "Maintainable full-stack structure aligned with Laravel conventions.",
+      "Database design supports growth without breaking changes.",
+    ],
+  }),
+
+  p({
     slug: "vanilla-js",
-    title: "Vanilla JavaScript Micro-App",
-    role: "JavaScript • Engineering fundamentals",
-    stack: ["HTML", "CSS", "JavaScript"],
+    title: "Vanilla JS Project",
+    role: "Front-End • JavaScript",
     summary:
-      "A small but high-quality project focused on clean JS, accessibility, and performance patterns without frameworks.",
-    highlights: [
-      "Modular JS structure (no spaghetti)",
-      "Keyboard accessible UI (focus states, semantics)",
-      "Performance patterns (debounce/throttle where needed)",
-      "LocalStorage persistence + error handling",
-    ],
+      "A clean JavaScript project demonstrating DOM architecture, API calls, and state organization without frameworks.",
+    stack: ["JavaScript", "HTML", "CSS", "API"],
     links: {
-      live: "",
-      github: "",
+      live: "https://example.com",
+      github: "https://github.com/RoussosAdo",
     },
-  },
-];
+    overview:
+      "Demonstrated engineering fundamentals: modular code, predictable state, and clean DOM updates.",
+    problem: [
+      "Avoid spaghetti DOM code while staying framework-free.",
+      "Keep state predictable and UI updates consistent.",
+      "Handle async API calls with readable flow.",
+    ],
+    solution: [
+      "Separated state, DOM rendering, and event wiring.",
+      "Created small pure functions for transformations.",
+      "Centralized async logic and error handling.",
+    ],
+    outcomes: [
+      "Readable codebase without framework overhead.",
+      "Easier debugging and feature additions.",
+      "Stable UI updates with less side-effect chaos.",
+    ],
+  }),
+] satisfies Project[];

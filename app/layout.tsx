@@ -18,25 +18,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Antonis Roussos — Front-End (React) / Full-Stack (Laravel)",
+  metadataBase: new URL("https://antonis-portfolio.netlify.app"), // άλλαξέ το όταν έχεις τελικό domain
+  title: {
+    default: "Antonis Roussos | Front-End Developer",
+    template: "%s | Antonis Roussos",
+  },
   description:
-    "Portfolio of Antonis Roussos — React front-end developer with full-stack experience (PHP/Laravel). Projects, case studies, and production-focused work.",
-  metadataBase: new URL("https://antonis-portfolio.netlify.app"), // θα το αλλάξεις όταν πάρεις custom domain
+    "Front-End developer focused on React, Next.js and clean UI architecture. Building production-ready web apps with strong workflows and maintainable code.",
+  keywords: [
+    "Antonis Roussos",
+    "Front-End Developer",
+    "React",
+    "Next.js",
+    "Tailwind",
+    "TypeScript",
+    "Laravel",
+    "Portfolio",
+  ],
+  authors: [{ name: "Antonis Roussos" }],
+  creator: "Antonis Roussos",
   openGraph: {
-    title: "Antonis Roussos — Portfolio",
+    title: "Antonis Roussos | Front-End Developer",
     description:
-      "React front-end developer with full-stack experience (PHP/Laravel). Projects and case studies.",
-    url: "https://antonis-portfolio.netlify.app",
+      "Production-ready UI with React/Next.js, clean architecture, and real-world workflows.",
+    url: "/",
     siteName: "Antonis Roussos",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Antonis Roussos Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Antonis Roussos — Portfolio",
+    title: "Antonis Roussos | Front-End Developer",
     description:
-      "React front-end developer with full-stack experience (PHP/Laravel). Projects and case studies.",
+      "Production-ready UI with React/Next.js, clean architecture, and real-world workflows.",
+    images: ["/og.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
+
 
 export default function RootLayout({
   children,

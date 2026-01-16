@@ -1,12 +1,40 @@
-import Link from "next/link";
+// app/projects/[slug]/page.tsx
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { projects } from "@/data/projects";
+import ProjectHero from "@/components/ProjectHero";
+import ProjectSection from "@/components/ProjectSection";
 
-type Props = {
+
+type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function ProjectCaseStudy({ params }: Props) {
+/** (Optional but recommended) Pre-build all project pages */
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
+}
+
+/** SEO per project */
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+
+  if (!project) {
+    return {
+      title: "Project not found",
+      description: "This project does not exist.",
+    };
+  }
+
+  return {
+    title: `${project.title} — Antonis Roussos`,
+    description: project.summary ?? project.overview ?? "Project case study",
+  };
+}
+
+export default async function ProjectCaseStudy({ params }: PageProps) {
   const { slug } = await params;
 
   const project = projects.find((p) => p.slug === slug);
@@ -14,79 +42,79 @@ export default async function ProjectCaseStudy({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <Link href="/projects" className="text-sm text-white/70 hover:text-white">
-          ← Back to Projects
-        </Link>
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            href="/projects"
+            className="text-sm text-white/70 transition hover:text-white"
+          >
+            ← Back to Projects
+          </Link>
 
-        <p className="mt-8 text-sm text-white/60">{project.role}</p>
-        <h1 className="mt-2 text-4xl font-semibold tracking-tight">
-          {project.title}
-        </h1>
-        <p className="mt-5 text-lg leading-relaxed text-white/70">
-          {project.summary}
-        </p>
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          {project.stack.map((s) => (
-            <span
-              key={s}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
-            >
-              {s}
-            </span>
-          ))}
+          <a
+            href="/CV-Roussos-Antonios.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10"
+          >
+            CV
+          </a>
         </div>
 
-        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-lg font-semibold">Highlights</h2>
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-white/75">
-            {project.highlights.map((h) => (
-              <li key={h}>{h}</li>
-            ))}
-          </ul>
+        <div className="mt-8">
+          <ProjectHero project={project} />
+
+          {project.overview ? (
+            <ProjectSection title="Overview">
+              <p className="leading-relaxed text-white/80">{project.overview}</p>
+            </ProjectSection>
+          ) : null}
+
+          {project.problem?.length ? (
+            <ProjectSection title="Problem">
+              <ul className="list-disc space-y-2 pl-5 text-white/80">
+                {project.problem.map((x, i) => (
+                  <li key={`${project.slug}-problem-${i}`}>{x}</li>
+                ))}
+              </ul>
+            </ProjectSection>
+          ) : null}
+
+          {project.solution?.length ? (
+            <ProjectSection title="Solution">
+              <ul className="list-disc space-y-2 pl-5 text-white/80">
+                {project.solution.map((x, i) => (
+                  <li key={`${project.slug}-solution-${i}`}>{x}</li>
+                ))}
+              </ul>
+            </ProjectSection>
+          ) : null}
+
+          {project.outcomes?.length ? (
+            <ProjectSection title="Outcome">
+              <ul className="list-disc space-y-2 pl-5 text-white/80">
+                {project.outcomes.map((x, i) => (
+                  <li key={`${project.slug}-outcome-${i}`}>{x}</li>
+                ))}
+              </ul>
+            </ProjectSection>
+          ) : null}
+
+          {project.highlights?.length ? (
+            <ProjectSection title="Highlights">
+              <ul className="list-disc space-y-2 pl-5 text-white/80">
+                {project.highlights.map((x, i) => (
+                  <li key={`${project.slug}-highlights-${i}`}>{x}</li>
+                ))}
+              </ul>
+            </ProjectSection>
+          ) : null}
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          {project.links.live ? (
-            <a
-              href={project.links.live}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-neutral-950 transition hover:bg-white/90"
-            >
-              Live Demo
-            </a>
-          ) : (
-            <span className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/50">
-              Live Demo (coming soon)
-            </span>
-          )}
-
-          {project.links.github ? (
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5"
-            >
-              GitHub
-            </a>
-          ) : (
-            <span className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/50">
-              GitHub (coming soon)
-            </span>
-          )}
-        </div>
-
-        <div className="mt-12 rounded-2xl border border-white/10 bg-black/20 p-6">
-          <h3 className="text-base font-semibold">Next upgrade (we’ll do this)</h3>
-          <p className="mt-2 text-sm text-white/70">
-            We’ll expand this page into a full case study: problem, approach,
-            architecture, screenshots, challenges, and measurable results.
-          </p>
-        </div>
-      </section>
+        <footer className="mt-14 border-t border-white/10 pt-8 text-sm text-white/60">
+          © {new Date().getFullYear()} Antonis Roussos
+        </footer>
+      </div>
     </main>
   );
 }

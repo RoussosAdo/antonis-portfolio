@@ -7,6 +7,31 @@ import useActiveSection from "@/components/useActiveSection";
 
 type Key = "featured" | "projects" | "experience" | "contact";
 
+function KbdHint() {
+  const isMac =
+    typeof window !== "undefined" &&
+    /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+      className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70 transition hover:bg-white/10 sm:inline-flex"
+      aria-label="Open search"
+    >
+      <span className="text-white/60">Search</span>
+      <span className="flex items-center gap-1">
+        <kbd className="rounded-md border border-white/10 bg-black/20 px-1.5 py-0.5 text-[11px]">
+          {isMac ? "⌘" : "Ctrl"}
+        </kbd>
+        <kbd className="rounded-md border border-white/10 bg-black/20 px-1.5 py-0.5 text-[11px]">
+          K
+        </kbd>
+      </span>
+    </button>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -24,8 +49,21 @@ export default function Navbar() {
     return () => window.removeEventListener("hashchange", sync);
   }, []);
 
+  // ✅ Manual override: όταν πατάς logo (ή θες force underline), κλειδώνει προσωρινά
+  const [manualKey, setManualKey] = useState<Key | null>(null);
+
+  useEffect(() => {
+    if (!manualKey) return;
+    const t = window.setTimeout(() => setManualKey(null), 600);
+    return () => window.clearTimeout(t);
+  }, [manualKey]);
+
   const activeKey: Key = useMemo(() => {
-    if (pathname === "/projects") return "projects";
+    // ✅ manual wins
+    if (manualKey) return manualKey;
+
+    // ✅ projects + case studies
+    if (pathname.startsWith("/projects")) return "projects";
 
     if (onHome) {
       // 1) hash priority (instant)
@@ -40,7 +78,7 @@ export default function Navbar() {
     }
 
     return "featured";
-  }, [pathname, onHome, hash, activeSection]);
+  }, [manualKey, pathname, onHome, hash, activeSection]);
 
   const linkClass = (active: boolean) =>
     `transition ${active ? "text-white" : "text-white/70 hover:text-white"}`;
@@ -72,7 +110,6 @@ export default function Navbar() {
     const cRect = container.getBoundingClientRect();
     const r = el.getBoundingClientRect();
 
-    // Centered underline: use a bit smaller than text width (looks premium)
     const targetWidth = Math.max(18, Math.round(r.width));
     const centerX = r.left - cRect.left + r.width / 2;
     const left = Math.round(centerX - targetWidth / 2);
@@ -80,7 +117,6 @@ export default function Navbar() {
     setUnderline({ left, width: targetWidth, opacity: 1 });
   };
 
-  // useLayoutEffect για να μετράει σωστά πριν το paint
   useLayoutEffect(() => {
     updateUnderline();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,7 +126,6 @@ export default function Navbar() {
     const onResize = () => updateUnderline();
     window.addEventListener("resize", onResize);
 
-    // Fonts μπορεί να φορτώνουν μετά → ξαναμέτρα
     const t = window.setTimeout(() => updateUnderline(), 50);
 
     return () => {
@@ -102,21 +137,32 @@ export default function Navbar() {
 
   // Click helpers
   const goHash = (h: "#projects" | "#experience" | "#contact") => {
+    setManualKey(null);
     setHash(h);
+    setOpen(false);
+  };
+
+  const openSearch = () => {
+    window.dispatchEvent(new Event("open-command-palette"));
     setOpen(false);
   };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/80 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        {/* LOGO */}
-        <Link
-          href="/"
-          className="font-semibold tracking-tight"
-          onClick={() => setOpen(false)}
-        >
-          Antonis<span className="text-white/60">.dev</span>
-        </Link>
+        {/* LOGO — hard refresh to home */}
+<a
+  href="/"
+  onClick={() => {
+    setOpen(false);
+    setHash("");
+    setManualKey(null);
+  }}
+  className="font-semibold tracking-tight cursor-pointer"
+>
+  Antonis<span className="text-white/60">.dev</span>
+</a>
+
 
         {/* DESKTOP NAV */}
         <div ref={navRef} className="relative hidden items-center gap-6 text-sm sm:flex">
@@ -145,7 +191,10 @@ export default function Navbar() {
             ref={(el) => {
               linkRefs.current.projects = el;
             }}
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setManualKey(null);
+              setOpen(false);
+            }}
             className={linkClass(activeKey === "projects")}
           >
             Projects
@@ -176,7 +225,8 @@ export default function Navbar() {
 
         {/* RIGHT ACTIONS */}
         <div className="flex items-center gap-3">
-          {/* PDF: external/static asset OK with <a> */}
+          <KbdHint />
+
           <a
             href="/CV-Roussos-Antonios.pdf"
             target="_blank"
@@ -200,6 +250,14 @@ export default function Navbar() {
       {open && (
         <div className="border-t border-white/10 bg-neutral-950 sm:hidden">
           <div className="flex flex-col gap-4 px-6 py-6 text-sm">
+            <button
+              type="button"
+              onClick={openSearch}
+              className="text-left text-white/80 hover:text-white"
+            >
+              Search
+            </button>
+
             <Link
               href="/#projects"
               onClick={() => goHash("#projects")}
@@ -210,7 +268,10 @@ export default function Navbar() {
 
             <Link
               href="/projects"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setManualKey(null);
+                setOpen(false);
+              }}
               className={linkClass(activeKey === "projects")}
             >
               Projects

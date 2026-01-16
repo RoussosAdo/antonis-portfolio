@@ -5,6 +5,10 @@ import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import CommandPalette from "@/components/CommandPalette";
+import ScrollRestoration from "@/components/ScrollRestoration";
+
+
 
 
 
@@ -77,8 +81,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white`}
       >
+        <ScrollRestoration />
         <ScrollProgress />
         <Navbar />
+        <CommandPalette />
         <PageTransition>{children}</PageTransition>
         <Footer />
       </body>

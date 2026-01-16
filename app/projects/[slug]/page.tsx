@@ -110,10 +110,6 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
             </ProjectSection>
           ) : null}
         </div>
-
-        <footer className="mt-14 border-t border-white/10 pt-8 text-sm text-white/60">
-          © {new Date().getFullYear()} Antonis Roussos
-        </footer>
       </div>
     </main>
   );

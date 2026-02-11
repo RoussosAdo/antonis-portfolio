@@ -2,7 +2,7 @@
 
 A personal portfolio website built with **Next.js**, **React**, and **TypeScript**, focused on **high-fidelity UI**, **responsive design**, **accessibility**, and **web performance**. Animations are implemented with **Framer Motion** and styling with **Tailwind CSS**.
 
-- **Live:** (add your live URL)
+- **Live:** In Development
 - **Repo:** https://github.com/RoussosAdo/antonis-portfolio
 
 ---

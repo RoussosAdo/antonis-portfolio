@@ -7,6 +7,8 @@ import useActiveSection from "@/components/useActiveSection";
 
 type Key = "featured" | "projects" | "experience" | "contact";
 
+//ρεγιουζαμπλ ναβιγκαισον κομπονεντ εντ γιουσντ εβριγουρ κλιν σεπερατιον.
+
 function KbdHint() {
   const isMac =
     typeof window !== "undefined" &&

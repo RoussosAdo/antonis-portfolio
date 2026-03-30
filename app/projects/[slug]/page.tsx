@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import ProjectHero from "@/components/ProjectHero";
 import ProjectSection from "@/components/ProjectSection";
 
+//νταιναμικ πειτζισ σκεηλαμπλ φορ μουλτιπλ προτζεκσ + κλαιεντσ
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -100,11 +101,11 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
             </ProjectSection>
           ) : null}
 
-          {project.highlights?.length ? (
-            <ProjectSection title="Highlights">
+          {project.features?.length ? (
+            <ProjectSection title="Features">
               <ul className="list-disc space-y-2 pl-5 text-white/80">
-                {project.highlights.map((x, i) => (
-                  <li key={`${project.slug}-highlights-${i}`}>{x}</li>
+                {project.features.map((x, i) => (
+                  <li key={`${project.slug}-features-${i}`}>{x}</li>
                 ))}
               </ul>
             </ProjectSection>

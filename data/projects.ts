@@ -17,8 +17,10 @@ export type Project = {
   problem: string[];
   solution: string[];
   outcomes: string[];
-  highlights?: string[];
+  features?: string[];
 };
+
+// κοντεντ/ντατα σεπερειτιντ- ηζι του μαιγρειτ το cms λειτερ
 
 // Helper (optional): ensures you never accidentally export empty arrays/strings
 const p = (project: Project) => project;
@@ -29,30 +31,37 @@ export const projects = [
     title: "SaaS Dashboard (React UI)",
     role: "Front-End • React",
     summary:
-      "A production-style dashboard UI with reusable components, responsive layout, and clean state handling.",
+      "Production-ready SaaS dashboard built with reusable components, responsive layout, and scalable UI architecture.",
     stack: ["React", "Next.js", "TypeScript", "Tailwind"],
     links: {
-      live: "https://example.com",
+      live: "",
       github: "https://github.com/RoussosAdo",
     },
     overview:
-      "Built a clean, scalable dashboard UI focused on component reuse, responsiveness, and performance-friendly rendering.",
+      "Designed and implemented a scalable dashboard UI system with reusable components, consistent layout patterns, and performance-focused rendering.",
     problem: [
-      "Dashboard screens grow fast → needs reusable layout patterns.",
-      "Must be responsive and consistent across breakpoints.",
-      "Avoid messy component coupling and duplicated UI code.",
+      "Dashboard interfaces scale quickly and require reusable UI patterns.",
+      "Ensuring responsiveness and consistency across breakpoints is critical.",
+      "Avoiding duplicated logic and tightly coupled components."
     ],
     solution: [
-      "Created reusable UI sections and consistent spacing/typography rules.",
-      "Structured components by responsibility (layout, cards, data, actions).",
-      "Kept state minimal, lifted only when necessary.",
+      "Implemented modular UI components (cards, tables, actions) with clear separation of concerns.",
+      "Established consistent spacing, typography, and layout system.",
+      "Managed state efficiently, lifting state only where necessary."
     ],
     outcomes: [
-      "Reusable components reduced repetition and sped up new screens.",
-      "Cleaner structure improved maintainability and readability.",
-      "Responsive UI behaves consistently across devices.",
+      "Reduced UI duplication through reusable component patterns.",
+      "Improved maintainability with structured and scalable architecture.",
+      "Delivered consistent responsive behavior across devices."
     ],
-    highlights: ["Keyboard-friendly interactions", "Accessible contrast & spacing"],
+    features: [
+    "Reusable dashboard layout with modular components",
+    "Responsive design across mobile, tablet, and desktop",
+    "Interactive data table with search, filtering, and pagination",
+    "Clean component architecture with performance-focused rendering",
+    "Accessible UI with keyboard navigation and proper contrast",
+    "Simulated analytics data (users, metrics, dashboard stats)"
+    ],
   }),
 
   p({

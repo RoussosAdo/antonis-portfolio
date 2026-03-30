@@ -9,6 +9,8 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CommandPalette from "@/components/CommandPalette";
 import ScrollRestoration from "@/components/ScrollRestoration";
 
+//μπεισ λαιαουτ, σεαρντ στρακτσουρ ακροσ παιτζισ
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

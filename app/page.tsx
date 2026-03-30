@@ -7,12 +7,14 @@ import Magnetic from "@/components/Magnetic";
 import { MotionDiv, stagger, fadeUp } from "@/components/Motion";
 import ScrollTopOnLoad from "@/components/ScrollTopOnLoad";
 
+//Χοουμ ισ ασεμπλντ φρομ ριγιουζαμπλ σεκτιονσ σο αι καν σουαπ κοντεντ φαστ
+
 export default function Home() {
   const featured = projects;
 
   return (
     <>
-      {/* 🔒 Fix scroll restore (κρατά Featured default) */}
+      {/*  Fix scroll restore (κρατά Featured default) */} 
       <ScrollTopOnLoad />
 
       <main className="min-h-screen bg-neutral-950 text-white">

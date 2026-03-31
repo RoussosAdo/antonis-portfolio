@@ -34,8 +34,8 @@ export const projects = [
       "Production-ready SaaS dashboard built with reusable components, responsive layout, and scalable UI architecture.",
     stack: ["React", "Next.js", "TypeScript", "Tailwind"],
     links: {
-      live: "",
-      github: "https://github.com/RoussosAdo",
+      live: "https://saas-dashboard1.vercel.app",
+      github: "https://github.com/RoussosAdo/saas-dashboard-ui",
     },
     overview:
       "Designed and implemented a scalable dashboard UI system with reusable components, consistent layout patterns, and performance-focused rendering.",

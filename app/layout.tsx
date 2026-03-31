@@ -9,8 +9,6 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CommandPalette from "@/components/CommandPalette";
 import ScrollRestoration from "@/components/ScrollRestoration";
 
-// Base layout shared across pages
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,7 +21,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://your-vercel-domain.vercel.app";
+const siteUrl = "https://antonis-portfolio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -51,40 +49,34 @@ export const metadata: Metadata = {
   creator: "Antonis Roussos",
   applicationName: "Antonis Roussos Portfolio",
 
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+  alternates: {
+    canonical: siteUrl,
   },
 
   openGraph: {
-    title: "Antonis Roussos — Portfolio",
+    title: "Antonis Roussos — Front-End Developer",
     description:
-      "React front-end developer with full-stack experience (PHP/Laravel). Projects and case studies.",
+      "React, Next.js, Tailwind CSS and scalable UI systems. Explore my portfolio and projects.",
     url: siteUrl,
     siteName: "Antonis Roussos",
-    type: "website",
     locale: "en_US",
+    type: "website",
     images: [
       {
-        url: "/og.png",
+        url: `${siteUrl}/og.png`,
         width: 1200,
         height: 630,
-        alt: "Antonis Roussos — Portfolio",
+        alt: "Antonis Roussos Portfolio",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Antonis Roussos — Portfolio",
+    title: "Antonis Roussos — Front-End Developer",
     description:
-      "React front-end developer with full-stack experience (PHP/Laravel). Projects and case studies.",
-    images: ["/og.png"],
-    creator: "@yourhandle",
-  },
-
-  alternates: {
-    canonical: siteUrl,
+      "React, Next.js, Tailwind CSS and scalable UI systems. Explore my portfolio and projects.",
+    images: [`${siteUrl}/og.png`],
   },
 };
 

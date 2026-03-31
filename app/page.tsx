@@ -54,7 +54,7 @@ export default function Home() {
               </Magnetic>
 
               <a
-                href="/CV-Roussos-Antonios.pdf"
+                href="/Antonis_Roussos_Web_Developer.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10 hover:-translate-y-0.5 active:translate-y-0"
@@ -63,7 +63,7 @@ export default function Home() {
               </a>
 
               <a
-                href="/CV-Roussos-Antonios.pdf"
+                href="/Antonis_Roussos_Web_Developer.pdf"
                 download
                 className="rounded-xl border border-white/15 bg-transparent px-5 py-3 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:-translate-y-0.5 active:translate-y-0"
               >

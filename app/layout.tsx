@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -9,19 +9,21 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CommandPalette from "@/components/CommandPalette";
 import ScrollRestoration from "@/components/ScrollRestoration";
 
-//μπεισ λαιαουτ, σεαρντ στρακτσουρ ακροσ παιτζισ
+// Base layout shared across pages
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const siteUrl = "https://antonis-portfolio.netlify.app";
+const siteUrl = "https://your-vercel-domain.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
     "Front-End Developer",
     "React",
     "Next.js",
-    "Tailwind",
+    "Tailwind CSS",
     "TypeScript",
     "Laravel",
     "Portfolio",
@@ -47,14 +49,11 @@ export const metadata: Metadata = {
 
   authors: [{ name: "Antonis Roussos" }],
   creator: "Antonis Roussos",
+  applicationName: "Antonis Roussos Portfolio",
 
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      // αν έχεις και png favicon μπορείς να το προσθέσεις:
-      // { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png" }],
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 
   openGraph: {
@@ -64,6 +63,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Antonis Roussos",
     type: "website",
+    locale: "en_US",
     images: [
       {
         url: "/og.png",
@@ -80,7 +80,18 @@ export const metadata: Metadata = {
     description:
       "React front-end developer with full-stack experience (PHP/Laravel). Projects and case studies.",
     images: ["/og.png"],
+    creator: "@yourhandle",
   },
+
+  alternates: {
+    canonical: siteUrl,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
@@ -89,9 +100,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-neutral-950">
+    <html lang="en" className="bg-neutral-950" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-neutral-950 text-white antialiased`}
       >
         <ScrollRestoration />
         <ScrollProgress />

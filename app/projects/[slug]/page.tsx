@@ -53,7 +53,7 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
           </Link>
 
           <a
-            href="/CV-Roussos-Antonios.pdf"
+            href="/Antonis_Roussos_Web_Developer_CV.pdf"
             target="_blank"
             rel="noreferrer"
             className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10"
